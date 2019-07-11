@@ -8,6 +8,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiresource('/products','ProductController');
 
-Route::group(['prefix' =>  'product'],function(){
+Route::group(['prefix' =>  'products'],function(){
   Route::apiresource('{productId}/reviews','ReviewController');
 });
