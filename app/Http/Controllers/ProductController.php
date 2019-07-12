@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
-  public function __construct()
-  {
-    $this->middleware('auth:api')->except('index','show');
-  }
+    public function __construct()
+    {
+      $this->middleware('auth:api')->except('index','show');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -57,16 +57,6 @@ class ProductController extends Controller
         return new  ProductResource($product);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -77,7 +67,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+      $request['detail'] = $request->description;
+      unset($request['description']);
+      $product->update($request->all());
+      return response([
+        "data" => new ProductResource($product)
+      ],Response::HTTP_CREATED);
     }
 
     /**
